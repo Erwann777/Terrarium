@@ -1,0 +1,280 @@
+/* ===== CSS Variables ===== */
+:root {
+  --bg: #1a2e1a;
+  --sidebar-bg: #243324;
+  --terrarium-bg: #0d1f0d;
+  --terrarium-border: #4a7c59;
+  --ground-color: #3b2a1a;
+  --sky-color: #aed9a0;
+  --text-light: #d6f0c8;
+  --accent: #6fcf97;
+  --glow-color: rgba(111, 207, 151, 0.6);
+  --shadow: rgba(0,0,0,0.5);
+  --font-main: 'Georgia', serif;
+  --font-title: 'Palatino Linotype', 'Book Antiqua', serif;
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text-light);
+  font-family: var(--font-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px 16px;
+}
+
+/* ===== Page Wrapper ===== */
+.page-wrapper {
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* ===== Title ===== */
+.title {
+  font-family: var(--font-title);
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 28px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px var(--glow-color);
+}
+
+/* ===== Layout ===== */
+.layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* ===== Sidebar ===== */
+#sidebar-left,
+#sidebar-right,
+.sidebar {
+  background: var(--sidebar-bg);
+  border: 1.5px solid var(--terrarium-border);
+  border-radius: 16px;
+  padding: 20px 14px;
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 24px var(--shadow);
+}
+
+.sidebar h2 {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* ===== Plants ===== */
+.plant {
+  font-size: 2.2rem;
+  cursor: grab;
+  user-select: none;
+  border-radius: 12px;
+  padding: 6px 8px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+
+  /* Part 1: CSS sway animation */
+  animation: sway 3.5s ease-in-out infinite;
+}
+
+/* Offset stagger so they don't all sway in sync */
+.plant:nth-child(2) { animation-delay: 0s;    animation-duration: 3.2s; }
+.plant:nth-child(3) { animation-delay: 0.4s;  animation-duration: 3.7s; }
+.plant:nth-child(4) { animation-delay: 0.8s;  animation-duration: 3.0s; }
+.plant:nth-child(5) { animation-delay: 1.2s;  animation-duration: 4.0s; }
+.plant:nth-child(6) { animation-delay: 0.6s;  animation-duration: 3.4s; }
+.plant:nth-child(7) { animation-delay: 0.2s;  animation-duration: 3.6s; }
+.plant:nth-child(8) { animation-delay: 1.0s;  animation-duration: 3.3s; }
+.plant:nth-child(9) { animation-delay: 1.4s;  animation-duration: 3.8s; }
+
+/* Part 1: Keyframe — gentle sway 2-3 degrees */
+@keyframes sway {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(2.5deg); }
+  75%  { transform: rotate(-2.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Part 2c: Hover glow */
+.plant:hover {
+  background-color: rgba(111, 207, 151, 0.12);
+  box-shadow: 0 0 16px var(--glow-color), 0 0 32px rgba(111,207,151,0.3);
+  transform: scale(1.12) rotate(0deg);
+  cursor: grab;
+  animation-play-state: paused;
+}
+
+.plant:active {
+  cursor: grabbing;
+  transform: scale(1.25) rotate(0deg);
+  animation-play-state: paused;
+}
+
+/* Plants placed inside terrarium get absolute positioning */
+.plant.placed {
+  position: absolute;
+  animation: sway 3.5s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* Part 2b: Double-click brings to front */
+.plant.front {
+  z-index: 100;
+  filter: drop-shadow(0 0 10px var(--glow-color));
+}
+
+/* Part 2a: Reset transition */
+.plant.resetting {
+  transition: left 1s ease, top 1s ease !important;
+}
+
+/* ===== Terrarium Container ===== */
+.terrarium-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===== Terrarium ===== */
+.terrarium {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  background: linear-gradient(180deg, #1c3d1c 0%, #0d2b0d 60%, #081a08 100%);
+  border: 2.5px solid var(--terrarium-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 4px #1a2e1a,
+    0 0 0 6px var(--terrarium-border),
+    0 8px 40px var(--shadow);
+  /* Glass shimmer effect */
+  background-image:
+    linear-gradient(135deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+    linear-gradient(180deg, #1c3d1c 0%, #0d2b0d 60%, #0a1f0a 100%);
+}
+
+/* Drag-over highlight */
+.terrarium.drag-over {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 4px #1a2e1a,
+    0 0 0 6px var(--accent),
+    0 0 40px rgba(111, 207, 151, 0.25);
+}
+
+.sky-label {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: rgba(214, 240, 200, 0.35);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Ground strip at the bottom */
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 68px;
+  background: linear-gradient(180deg, #3b2a1a 0%, #2a1e12 100%);
+  border-top: 2px solid #5a3e28;
+}
+
+/* Pebble decorations */
+.ground::before {
+  content: '🪨 🪨 🪨 🪨 🪨 🪨';
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 1.1rem;
+  opacity: 0.45;
+  letter-spacing: 18px;
+}
+
+/* Moss decoration */
+.ground::after {
+  content: '🌱🌱🌱🌱🌱🌱🌱🌱🌱🌱';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 100%;
+  font-size: 0.9rem;
+  opacity: 0.5;
+  letter-spacing: 8px;
+}
+
+/* ===== Controls ===== */
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border: 1.5px solid var(--terrarium-border);
+  border-radius: 10px;
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  letter-spacing: 0.5px;
+}
+
+button:hover {
+  background: rgba(111, 207, 151, 0.15);
+  box-shadow: 0 0 12px var(--glow-color);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--sidebar-bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 20px var(--glow-color);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

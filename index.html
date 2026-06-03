@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Terrarium</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <h1 class="title">🌿 My Terrarium</h1>
+
+    <div class="layout">
+
+      <!-- Left Sidebar — 4 plants -->
+      <aside class="sidebar" id="sidebar-left">
+        <h2>Plants</h2>
+        <div class="plant" id="plant-1" data-name="Fern">🌿</div>
+        <div class="plant" id="plant-2" data-name="Cactus">🌵</div>
+        <div class="plant" id="plant-3" data-name="Flower">🌸</div>
+        <div class="plant" id="plant-4" data-name="Bamboo">🎋</div>
+      </aside>
+
+      <!-- Main terrarium area -->
+      <div class="terrarium-container">
+        <div class="terrarium" id="terrarium">
+          <div class="ground"></div>
+          <div class="sky-label">Terrarium — drag plants here!</div>
+        </div>
+        <div class="controls">
+          <button id="reset-btn">🔄 Reset Plants</button>
+          <button id="save-btn">💾 Save Layout</button>
+        </div>
+      </div>
+
+      <!-- Right Sidebar — 4 plants -->
+      <aside class="sidebar" id="sidebar-right">
+        <h2>Plants</h2>
+        <div class="plant" id="plant-5" data-name="Mushroom">🍄</div>
+        <div class="plant" id="plant-6" data-name="Sunflower">🌻</div>
+        <div class="plant" id="plant-7" data-name="Leaf">🍃</div>
+        <div class="plant" id="plant-8" data-name="Palm">🌴</div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Audio context for sound effects -->
+  <script src="app.js"></script>
+</body>
+</html>
